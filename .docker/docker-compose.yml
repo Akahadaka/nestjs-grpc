@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+  gateway:
+    build: ./gateway
+    hostname: gateway
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    networks:
+      - backend
+      - frontend
+  backend:
+    build:
+      context: service1
+    secrets:
+    depends_on:
+volumes:
+      # Use a named volume for the source code
+      - gri-server:/Workspace/service1
+      # Persist VS Code extensions between rebuilds
+      - vscode-extensions:/root/.vscode-server/extensions
+      # And/or for VS Code Insiders
+      - vscode-extensions-insiders:/root/.vscode-server-insiders/extensions
+secrets:
+  gri-server:
+  vscode-extensions:
+  vscode-extensions-insiders:
